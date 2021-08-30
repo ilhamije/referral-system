@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Uniqlink
 
-# Register your models here.
+class UniqlinkAdmin(admin.ModelAdmin):
+    list_display = ('uuid', 'title', 'created', 'expired', 'user_id')
+
+admin.site.register(Uniqlink, UniqlinkAdmin)

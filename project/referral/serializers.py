@@ -9,7 +9,7 @@ class UniqlinkSerializer(serializers.Serializer):
 
     class Meta:
         model = Uniqlink
-        fields = ['uuid', 'user']
+        fields = ['uuid', 'user_id']
 
     def create(self, validated_data):
         return Uniqlink.objects.create(**validated_data)
@@ -17,7 +17,7 @@ class UniqlinkSerializer(serializers.Serializer):
     def get_is_expired(self, obj):
         expired_str = "{}".format(obj.expired)
         expired = datetime.fromisoformat(expired_str)
-        if expired < datetime.now():
+        if expired < datetime.now(expired.tzinfo):
             return True
         return False
 
@@ -31,5 +31,7 @@ class UniqlinkSerializer(serializers.Serializer):
         data['title'] = instance.title
         data['created'] = instance.created
         data['expired'] = instance.expired
+        data['is_expired'] = self.get_is_expired(instance)
+        data['user'] = instance.user_id
 
         return data
