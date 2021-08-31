@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "./Login.css";
+import "./Register.css";
 
 async function registerUser(credentials) {
     return fetch('http://localhost:8000/auth/user/create/', {
@@ -15,9 +15,8 @@ async function registerUser(credentials) {
 }
 
 export default function Register({ setToken }) {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -29,12 +28,13 @@ export default function Register({ setToken }) {
     }
 
     function validateForm() {
-        return email.length > 0 && password.length >7;
+        return email.length > 0 && password.length > 7;
     }
 
     return (
         <div className="Register">
             <Form onSubmit={handleSubmit}>
+                <h2><u>Register</u></h2>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control

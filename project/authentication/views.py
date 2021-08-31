@@ -1,10 +1,11 @@
 from django.http import Http404
+from rest_framework.serializers import Serializer
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, SlidingToken
 
 from .serializers import (MyTokenObtainPairSerializer,
                         CustomUserSerializer,
@@ -21,8 +22,13 @@ class CustomUserCreate(APIView):
         if serializer.is_valid():
             user = serializer.save()
             if user:
-                json = serializer.data
+                json = {
+                    'refresh_token': str(RefreshToken.for_user(user)),
+                    'access_token': str(RefreshToken.for_user(user).access_token)
+                }
+                json.update(serializer.data)
                 return Response(json, status=status.HTTP_201_CREATED)
+        # print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
