@@ -1,20 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import Login from "./Login";
+
 
 function Dashboard() {
-    // const [data, setData] = useState({ hits: [] });
     const [data, setData] = useState([]);
-    // const [data, setData] = useState();
+    const [redirectLogin, setRedirectLogin] = useState(false);
 
     useEffect(() => {
+        var tokenData = JSON.parse(localStorage.getItem('token'));
+        // console.log(tokenData.access);
+        var userToken = 'JWT ' + tokenData.access
+        var opt = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': userToken,
+            },
+            mode: 'cors',
+            credentials: 'same-origin',
+            redirect: 'follow',
+        };
+
         async function fetchData() {
-            const result = await fetch('http://localhost:8000/ref/uniqlink/');
-            const jsonData = await result.json()
-            console.log(jsonData);
-            setData(jsonData)
+            let result = await fetch('http://localhost:8000/ref/uniqlink/', opt)
+            let jsonData = await result.json();
+            setData(jsonData);
+            // return jsonData;
         }
-        fetchData();
+        let fdata = fetchData();
+
+        if(!fdata) {
+            setRedirectLogin(true);
+        }
+
     }, [])
+
+    if (redirectLogin)
+        return <Login />
 
     return (
         <Container>
@@ -35,14 +58,13 @@ function Dashboard() {
                     </tr>
                 </thead>
                 <tbody>
-                    {
+                    {   data.length > 0 &&
                         data.map(item => (
-                            <tr>
+                            <tr key={item.uuid}>
                             <td>{item.url}</td>
                             <td>{item.created}</td>
                             {
                                 (item.is_expired === true) ? <td>Expired</td> : <td>Available</td>
-
                             }
                             </tr>
                         ))

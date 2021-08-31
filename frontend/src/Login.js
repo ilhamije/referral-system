@@ -3,7 +3,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
 import "./Login.css";
-import "./Register";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
 
 async function loginUser(credentials) {
     return fetch('http://localhost:8000/auth/token/obtain/', {
@@ -19,6 +20,8 @@ async function loginUser(credentials) {
 export default function Login({ setToken }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [redirectDashboard, setRedirectDashboard] = useState(false);
+    const [redirectRegister, setRedirectRegister] = useState(false);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -26,17 +29,23 @@ export default function Login({ setToken }) {
             email,
             password
         });
-        if('access_token' in token){
-            console.log('ada access_token');
+        if('access' in token){
             setToken(token);
+            setRedirectDashboard(true);
         } else {
-            console.log('redirect to register page?');
+            setRedirectRegister(true);
         }
     }
 
     function validateForm() {
         return email.length > 0 && password.length > 7;
     }
+
+    if (redirectDashboard)
+        return <Dashboard />
+
+    if (redirectRegister)
+        return <Register />
 
     return (
         <div className="Login">
@@ -65,5 +74,6 @@ export default function Login({ setToken }) {
                 <a href="/register">Register</a>
             </Form>
         </div>
+
     );
 }

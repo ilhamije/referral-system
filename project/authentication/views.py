@@ -23,8 +23,8 @@ class CustomUserCreate(APIView):
             user = serializer.save()
             if user:
                 json = {
-                    'refresh_token': str(RefreshToken.for_user(user)),
-                    'access_token': str(RefreshToken.for_user(user).access_token)
+                    'refresh': str(RefreshToken.for_user(user)),
+                    'access': str(RefreshToken.for_user(user).access_token)
                 }
                 json.update(serializer.data)
                 return Response(json, status=status.HTTP_201_CREATED)

@@ -4,7 +4,7 @@ export default function useToken() {
     const getToken = () => {
         const tokenString = localStorage.getItem('token');
         const userToken = JSON.parse(tokenString);
-        return userToken?.access_token
+        return userToken?.access
     };
 
     const [token, setToken] = useState(getToken());

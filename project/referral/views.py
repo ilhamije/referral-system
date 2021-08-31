@@ -22,18 +22,20 @@ class UniqlinkList(APIView):
     Returns list of unique links.
     Will be used by Generator User.
     """
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_userid(self, request):
         JWT_authenticator = JWTAuthentication()
         response = JWT_authenticator.authenticate(request)
         user, token = response
         user_id = token.payload.get('user_id')
+        print('user_id: ', user_id)
         return user_id
 
     def get(self, request, format=None):
-        # user_id = self.get_userid(request)
-        uniqlinks = Uniqlink.objects.filter(user_id=2)
+        user_id = self.get_userid(request)
+        uniqlinks = Uniqlink.objects.filter(user_id=user_id)
+        print('uniqlinks: ', uniqlinks)
         serializer = UniqlinkSerializer(uniqlinks, many=True)
         return Response(serializer.data)
 
