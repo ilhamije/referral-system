@@ -36,12 +36,20 @@ function Dashboard() {
 
     }, [])
 
-    if (redirectLogin)
+    const logout = () => {
+        localStorage.clear();
+        setRedirectLogin(true);
+    }
+
+    if (redirectLogin) {
         return <Login />
+    }
 
     return (
         <Container>
+            <Row><u onClick={logout}>logout</u></Row>
             <Row><h1>Dashboard</h1></Row>
+
             <Row>
                 <Col>
                 <Button>Create new link</Button>

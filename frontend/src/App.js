@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 import Dashboard from './Dashboard';
 import Register from './Register';
 import Login from './Login';
+import Newuniqlink from './Newuniqlink';
+
 import useToken from './useToken';
 
 function App() {
@@ -11,7 +14,7 @@ function App() {
   const { token, setToken } = useToken();
 
   if (token) {
-    return <Dashboard token={token} />
+    return <Dashboard />
   }
 
   return (
@@ -25,8 +28,11 @@ function App() {
           <Route path="/dashboard">
             <Dashboard />
           </Route>
-          <Route exact path="/register">
+          <Route path="/register">
             <Register setToken={setToken} />
+          </Route>
+          <Route path="/newuniqlink">
+            <Newuniqlink setToken={setToken} />
           </Route>
         </Switch>
       </Router>
