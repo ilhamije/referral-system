@@ -8,6 +8,7 @@ import Login from './Login';
 import Newuniqlink from './Newuniqlink';
 
 import useToken from './useToken';
+import Contributor from './Contributor';
 
 function App() {
 
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <Route path="/newuniqlink">
             <Newuniqlink setToken={setToken} />
+          </Route>
+          <Route path="/code/:uniqid">
+            <Contributor />
           </Route>
         </Switch>
       </Router>

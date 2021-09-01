@@ -10,7 +10,6 @@ export default function Dashboard() {
 
     useEffect(() => {
         var tokenData = JSON.parse(localStorage.getItem('token'));
-        console.log('dashboard token access', tokenData.access);
         var userToken = 'JWT ' + tokenData.access
         var opt = {
             method: 'GET',
@@ -64,6 +63,7 @@ export default function Dashboard() {
                     <th>#</th>
                     <th>URL</th>
                     <th>Created</th>
+                    <th>Contributors</th>
                     <th>Expiry Status</th>
                     </tr>
                 </thead>
@@ -74,6 +74,7 @@ export default function Dashboard() {
                             <td>{index+1}</td>
                             <td>{item.url}</td>
                             <td>{item.created}</td>
+                            <td>{item.num_contributors}</td>
                             {
                                 (item.is_expired === true) ? <td>Expired</td> : <td>Available</td>
                             }

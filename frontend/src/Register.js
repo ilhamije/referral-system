@@ -18,7 +18,7 @@ async function registerUser(credentials) {
 }
 
 export default function Register() {
-    const { token, setToken } = useToken();
+    const { setToken } = useToken();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirectDashboard, setRedirectDashboard] = useState(false);

@@ -4,9 +4,8 @@ import { Form, Button } from 'react-bootstrap';
 
 export default function Newuniqlink() {
     var tokenData = JSON.parse(localStorage.getItem('token'));
-    console.log(tokenData.access);
     var userToken = 'JWT ' + tokenData.access
-    console.log(userToken);
+    // console.log(userToken);
     var opt = {
         method: 'POST',
         headers: {
