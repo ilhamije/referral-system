@@ -19,7 +19,6 @@ function App() {
 
   return (
     <div className="wrapper">
-      <h1>Referral</h1>
       <Router>
         <Switch>
           <Route exact path="/">
@@ -29,7 +28,7 @@ function App() {
             <Dashboard />
           </Route>
           <Route path="/register">
-            <Register setToken={setToken} />
+            <Register />
           </Route>
           <Route path="/newuniqlink">
             <Newuniqlink setToken={setToken} />

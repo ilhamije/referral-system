@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import Login from "./Login";
+import Newuniqlink from './Newuniqlink';
 
 
-function Dashboard() {
+export default function Dashboard() {
     const [data, setData] = useState([]);
     const [redirectLogin, setRedirectLogin] = useState(false);
 
     useEffect(() => {
         var tokenData = JSON.parse(localStorage.getItem('token'));
-        // console.log(tokenData.access);
+        console.log('dashboard token access', tokenData.access);
         var userToken = 'JWT ' + tokenData.access
         var opt = {
             method: 'GET',
@@ -52,7 +53,7 @@ function Dashboard() {
 
             <Row>
                 <Col>
-                <Button>Create new link</Button>
+                <Newuniqlink />
                 </Col>
             </Row>
             <Row>
@@ -60,6 +61,7 @@ function Dashboard() {
                 <Table striped bordered hover size="md">
                 <thead>
                     <tr>
+                    <th>#</th>
                     <th>URL</th>
                     <th>Created</th>
                     <th>Expiry Status</th>
@@ -67,8 +69,9 @@ function Dashboard() {
                 </thead>
                 <tbody>
                     {   data.length > 0 &&
-                        data.map(item => (
-                            <tr key={item.uuid}>
+                        data.map((item, index) => (
+                            <tr key={index}>
+                            <td>{index+1}</td>
                             <td>{item.url}</td>
                             <td>{item.created}</td>
                             {
@@ -84,5 +87,3 @@ function Dashboard() {
         </Container>
     );
 }
-
-export default Dashboard;

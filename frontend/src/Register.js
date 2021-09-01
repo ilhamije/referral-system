@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 
 import "./Register.css";
 import Dashboard from "./Dashboard";
+import useToken from './useToken';
 
 async function registerUser(credentials) {
     return fetch('http://localhost:8000/auth/user/create/', {
@@ -16,19 +17,20 @@ async function registerUser(credentials) {
     .then(data => data.json())
 }
 
-export default function Register({ setToken }) {
+export default function Register() {
+    const { token, setToken } = useToken();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirectDashboard, setRedirectDashboard] = useState(false);
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await registerUser({
+        const getToken = await registerUser({
             email,
             password
         });
-        if ('access' in token) {
-            setToken(token);
+        if ('access' in getToken) {
+            setToken(getToken);
             setRedirectDashboard(true);
         }
     }
@@ -43,6 +45,10 @@ export default function Register({ setToken }) {
     return (
         <div className="Register">
             <Form onSubmit={handleSubmit}>
+                <small>
+                    Your email is not registered.
+                    Please register.
+                </small>
                 <h2><u>Register</u></h2>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>

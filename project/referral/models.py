@@ -19,7 +19,7 @@ class Uniqlink(models.Model):
         CustomUser, related_name='uniqlinks', on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['created', 'user']
+        ordering = ['-created']
 
     def __str__(self):
         return '{}'.format(self.expired)
