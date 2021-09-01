@@ -6,9 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from django.http import Http404
-import jwt
-from .models import Uniqlink
-from .serializers import UniqlinkSerializer
+from .models import Uniqlink, Contributor
+from .serializers import UniqlinkSerializer, ContributorSerializer
 
 class ReferralView(APIView):
     # permission_classes = [permissions.IsAuthenticated]
@@ -68,7 +67,6 @@ class UniqlinkDetail(APIView):
         print('incoming:', incoming)
         try:
             return Uniqlink.objects.get(pk=incoming, user_id=user_id)
-            return Uniqlink.objects.get(pk=incoming)
         except Uniqlink.DoesNotExist:
             raise Http404
 
@@ -77,3 +75,17 @@ class UniqlinkDetail(APIView):
         uniqlink = self.get_object(pk, user_id)
         serializer = UniqlinkSerializer(uniqlink)
         return Response(serializer.data)
+
+
+class RefcodeEmailList(APIView):
+    """
+    Adding a new unique Contributor Email if the link is available.
+    """
+    def post(self, request, pk, format=None):
+        incoming = request.data
+        incoming.update({'uniqlink_uuid': pk})
+        serializer = ContributorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
