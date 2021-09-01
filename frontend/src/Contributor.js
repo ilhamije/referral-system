@@ -5,30 +5,37 @@ import validator from 'validator'
 
 import "./Login.css";
 
-async function ContributorEmail(credentials) {
-    let { uniqid } = useParams();
-    console.log('uniqid param is: ', { uniqid });
-    // return fetch('http://localhost:8000/auth/token/obtain/', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(credentials)
-    // })
-    //     .then(data => data.json())
-    console.log('credentials passed : ', credentials);
+async function ContributorEmail(payload) {
+    // console.log('payload passed : ', payload);
+    var url = 'http://localhost:8000/ref/code/' + payload['uniqid'];
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'contributor_email': payload['email']})
+    })
+    .then(data => data.json())
 }
 
 export default function Contributor() {
     const [email, setEmail] = useState('');
     const [validForm, setValidForm] = useState(false);
+    const [message, setMessage] = useState('');
+    let { uniqid } = useParams();
 
     const handleSubmit = async e => {
         e.preventDefault();
         const contEmail = await ContributorEmail({
-            email
+            email, uniqid
         });
         console.log('submitted email: ', contEmail);
+        if ('non_field_errors' in contEmail) {
+            setValidForm(false);
+            setMessage('Email is already used.')
+        } else {
+            setValidForm(true);
+        }
     }
 
     function validateForm() {
@@ -39,11 +46,14 @@ export default function Contributor() {
         }
     }
 
-    if (validForm === true) {
+    if (validForm) {
         return (
             <div className="Login">
-                <b>Thank You for Your Contribution</b>
-                <small>Have a nice day.</small>
+                <Form>
+                    <small>Submit your email address to contribute.</small>
+                    <h2>Contribution</h2>
+                    <p>Thanks! Your email has been submitted.</p>
+                </Form>
             </div>
         )
     }
@@ -60,8 +70,9 @@ export default function Contributor() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    />
+                        />
                 </Form.Group>
+                <div>{message}</div>
                 <Button block size="lg" type="submit" disabled={!validateForm()}>
                     Submit
                 </Button>

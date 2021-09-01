@@ -83,8 +83,11 @@ class RefcodeEmailList(APIView):
     """
     def post(self, request, pk, format=None):
         incoming = request.data
-        incoming.update({'uniqlink_uuid': pk})
-        serializer = ContributorSerializer(data=request.data)
+        print('incoming1: ', incoming)
+        if pk:
+            incoming.update({'uniqlink_uuid': pk})
+        print('incoming2: ', incoming)
+        serializer = ContributorSerializer(data=incoming)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

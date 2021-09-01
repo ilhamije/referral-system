@@ -27,7 +27,7 @@ class Uniqlink(models.Model):
 
 
 class Contributor(models.Model):
-    contributor_email = models.EmailField(unique=True)
+    contributor_email = models.EmailField()
     created = models.DateTimeField(auto_now_add=True)
     uniqlink_uuid = models.ForeignKey(
         Uniqlink, related_name='contributors', on_delete=models.DO_NOTHING)
