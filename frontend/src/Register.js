@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
 import "./Register.css";
+import Dashboard from "./Dashboard";
 
 async function registerUser(credentials) {
     return fetch('http://localhost:8000/auth/user/create/', {
@@ -17,6 +19,7 @@ async function registerUser(credentials) {
 export default function Register({ setToken }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [redirectDashboard, setRedirectDashboard] = useState(false);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -24,12 +27,18 @@ export default function Register({ setToken }) {
             email,
             password
         });
-        setToken(token);
+        if ('access' in token) {
+            setToken(token);
+            setRedirectDashboard(true);
+        }
     }
 
     function validateForm() {
         return email.length > 0 && password.length > 7;
     }
+
+    if (redirectDashboard)
+        return <Dashboard />
 
     return (
         <div className="Register">
