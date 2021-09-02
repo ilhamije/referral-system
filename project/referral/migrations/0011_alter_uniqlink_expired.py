@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('referral', '0001_initial'),
+        ('referral', '0010_alter_uniqlink_expired'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='uniqlink',
             name='expired',
-            field=models.DateTimeField(default=datetime.datetime(2021, 9, 9, 10, 21, 9, 20254), editable=False),
+            field=models.DateTimeField(default=datetime.datetime(2021, 9, 9, 10, 21, 56, 701736), editable=False),
         ),
     ]
