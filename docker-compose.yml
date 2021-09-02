@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  project:
+    restart: always
+    container_name: backend
+    build:
+      context: ./project/
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/backend
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - db-net
+
+  frontend:
+    restart: always
+    container_name: frontend
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - project
+    command : npm start
+    networks:
+      - db-net
+
+networks:
+  db-net:
+    driver: bridge
