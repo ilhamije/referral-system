@@ -7,11 +7,12 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8000/auth/token/obtain/', {
+    return fetch('/auth/token/obtain/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        mode: 'cors',
         body: JSON.stringify(credentials)
     })
         .then(data => data.json())

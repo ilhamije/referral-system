@@ -18,7 +18,7 @@ export default function Newuniqlink() {
     };
 
     async function createAction() {
-        let result = await fetch('http://localhost:8000/ref/uniqlink/', opt)
+        let result = await fetch('/ref/uniqlink/', opt)
         let jsonData = await result.json();
         console.log(jsonData);
     }

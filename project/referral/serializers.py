@@ -31,7 +31,7 @@ class UniqlinkSerializer(serializers.Serializer):
         data = dict()
         data['uuid'] = instance.uuid
         # data['url'] = self.get_absolute_url(instance)
-        data['url'] = '/ref/code/' + str(instance.uuid)
+        data['url'] = 'http://localhost:3000/code/' + str(instance.uuid)
         data['title'] = instance.title
         data['created'] = instance.created
         data['expired'] = instance.expired

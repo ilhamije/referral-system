@@ -23,7 +23,7 @@ export default function Dashboard() {
         };
 
         async function fetchData() {
-            let result = await fetch('http://localhost:8000/ref/uniqlink/', opt)
+            let result = await fetch('/ref/uniqlink/', opt)
             let jsonData = await result.json();
             setData(jsonData);
             // return jsonData;

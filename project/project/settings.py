@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-y1398s%l6l$f=d0bu^$u0qeyb(-#-wnp(2uibesfg%-w)m)_mb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS=['127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ÷["django", 'localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -76,7 +78,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -163,10 +165,23 @@ AUTH_USER_MODEL = "authentication.CustomUser"
 
 APPEND_SLASH = True
 
-CORS_ALLOW_ALL_ORIGINS = True
-
 CORS_ALLOW_METHODS = ["GET", "POST"]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
+# ALLOWED_HOSTS = ['*']
+# # CORS_ALLOWED_ORIGINS = [
+# #     "http://localhost:3000",
+# #     "http://127.0.0.1:3000",
+# # ]
+
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]

@@ -7,12 +7,13 @@ import "./Login.css";
 
 async function ContributorEmail(payload) {
     // console.log('payload passed : ', payload);
-    var url = 'http://localhost:8000/ref/code/' + payload['uniqid'];
+    var url = '/ref/code/' + payload['uniqid'];
     return fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
+        mode: 'cors',
         body: JSON.stringify({'contributor_email': payload['email']})
     })
     .then(data => data.json())
